@@ -1,0 +1,61 @@
+usage: ksu_susfs <CMD> [CMD options]
+   <CMD>:
+       add_sus_path </path/of/file_or_directory>
+        |--> Added path and all its sub-paths will be hidden from several syscalls
+        |--> Please be reminded that the target path must be added after the bind mount or overlay operation, otherwise it won't be effective
+ksu_susfs:
+       add_sus_mount <mounted_path>
+        |--> Added mounted path will be hidden from /proc/self/[mounts|mountinfo|mountstats]
+        |--> Please be reminded that the target path must be added after the bind mount or overlay operation, otherwise it won't be effective
+ksu_susfs:
+       add_sus_kstat_statically </path/of/file_or_directory> <ino> <dev> <nlink> <size>\
+                                <atime> <atime_nsec> <mtime> <mtime_nsec> <ctime> <ctime_nsec>
+                                <blocks> <blksize>
+        |--> Use 'stat' tool to find the format:
+                 ino -> %i, dev -> %d, nlink -> %h, atime -> %X, mtime -> %Y, ctime -> %Z
+                 size -> %s, blocks -> %b, blksize -> %B
+        |--> e.g., ksu_susfs add_sus_kstat_statically '/system/addon.d' '1234' '1234' '2' '223344'\
+                      '1712592355' '0' '1712592355' '0' '1712592355' '0' '1712592355' '0'\
+                      '16' '512'
+        |--> Or pass 'default' to use its original value:
+        |--> e.g., ksu_susfs add_sus_kstat_statically '/system/addon.d' 'default' 'default' 'default' 'default'\
+                      '1712592355' 'default' '1712592355' 'default' '1712592355' 'default'\
+                      'default' 'default'
+ksu_susfs:
+       add_sus_kstat </path/of/file_or_directory>
+        |--> Add the desired path BEFORE it gets bind mounted or overlayed, this is used for storing original stat info in kernel memory
+        |--> This command must be completed with <update_sus_kstat> later after the added path is bind mounted or overlayed
+ksu_susfs:
+       update_sus_kstat </path/of/file_or_directory>
+        |--> Add the desired path you have added before via <add_sus_kstat> to complete the kstat spoofing procedure
+        |--> This updates the target ino, but size and blocks are remained the same as current stat
+ksu_susfs:
+       update_sus_kstat_full_clone </path/of/file_or_directory>
+        |--> Add the desired path you have added before via <add_sus_kstat> to complete the kstat spoofing procedure
+        |--> This updates the target ino only, other stat members are remained the same as the original stat
+ksu_susfs:
+       add_try_umount </path/of/file_or_directory> <mode>
+        |--> Added path will be umounted from KSU for all UIDs that are NOT su allowed, and profile template configured with umount
+        |--> <mode>: 0 -> umount with no flags, 1 -> umount with MNT_DETACH
+        |--> NOTE: susfs umount takes precedence of ksu umount
+ksu_susfs:
+       set_uname <release> <version>
+        |--> NOTE: Only 'release' and <version> are spoofed as others are no longer needed
+        |--> Spoof uname for all processes, set string to 'default' to imply the function to use original string
+        |--> e.g., set_uname '4.9.337-g3291538446b7' 'default'
+ksu_susfs:
+       enable_log <0|1>
+        |--> 0: disable susfs log in kernel, 1: enable susfs log in kernel
+ksu_susfs:
+       sus_su <0|1>
+        |--> NOTE-1:
+               This feature allows user to disable kprobe hooks made by ksu, and instead,
+               a sus_su character device driver with random name will be created, and user
+               need to use a tool named 'sus_su' together with a path file in same current directory
+               named '/data/adb/ksu/bin/sus_su_drv_path' to get a root shell from the sus_su driver'
+        |--> NOTE-2:
+               To use it please see the service.sh from module template
+        |--> 0: enable core ksu kprobe hooks and disable sus_su driver
+        |--> 1: disable the core ksu kprobe hooks and enable sus_su driver
+ksu_susfs:
+
