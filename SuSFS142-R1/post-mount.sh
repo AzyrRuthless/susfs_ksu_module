@@ -13,6 +13,3 @@ ${SUSFS_BIN} add_sus_mount /system/etc
 ${SUSFS_BIN} add_sus_mount /system_ext
 ${SUSFS_BIN} add_sus_mount /product
 ${SUSFS_BIN} add_sus_mount /vendor
-
-# Debugging log (optional)
-# echo "susfs4ksu/post-mount: running" >> /dev/kmsg

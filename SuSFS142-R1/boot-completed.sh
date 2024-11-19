@@ -5,27 +5,6 @@ SUSFS_BIN="/data/adb/ksu/bin/ksu_susfs"
 
 source "${MODDIR}/utils.sh"
 
-# Detect SuSFS status
-if [ -f /debug_ramdisk/susfs_active ]; then
-    # Toggle SuSFS logging
-    if [ -f "${MODDIR}/susfs_log_enable" ]; then
-        ${SUSFS_BIN} enable_log 1
-        description="description=status: active ✅ | logging: enabled ✅"
-    else
-        ${SUSFS_BIN} enable_log 0
-        description="description=status: active ✅ | logging: disabled ❌"
-    fi
-else
-    description="description=status: failed 💢 - Make sure you're on a SuSFS-patched kernel!"
-    # Disable the module
-    touch "${MODDIR}/disable"
-    # Disable action usage (optional)
-    # rm "${MODDIR}/action.sh"
-fi
-
-# Update module description
-sed -i "s/^description=.*/$description/g" "${MODDIR}/module.prop"
-
 # Hide ReVanced-related packages
 count=0
 max_attempts=15

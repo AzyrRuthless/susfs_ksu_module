@@ -73,6 +73,3 @@ check_reset_prop "ro.boot.realme.lockstate" "1"
 contains_reset_prop "ro.bootmode" "recovery" "unknown"
 contains_reset_prop "ro.boot.bootmode" "recovery" "unknown"
 contains_reset_prop "vendor.boot.bootmode" "recovery" "unknown"
-
-# Debugging log (optional)
-# echo "susfs4ksu/service: running" >> /dev/kmsg

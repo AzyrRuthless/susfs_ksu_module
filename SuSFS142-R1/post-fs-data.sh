@@ -7,14 +7,6 @@ SUSFS_BIN="/data/adb/ksu/bin/ksu_susfs"
 # Source utilities (if needed)
 source "${MODDIR}/utils.sh"
 
-# Debugging log (optional)
-# echo "susfs4ksu/post-fs-data: running" >> /dev/kmsg
-
-# Do not delete! SUSFS activation check
-if dmesg | grep -q "susfs_init"; then
-    touch /debug_ramdisk/susfs_active
-fi
-
 # Hide Custom ROM traces
 ${SUSFS_BIN} add_sus_path /vendor/bin/install-recovery.sh
 ${SUSFS_BIN} add_sus_path /system/vendor/bin/install-recovery.sh
