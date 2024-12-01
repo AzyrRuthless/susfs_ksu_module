@@ -3,7 +3,7 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/AzyrRuthless/susfs_ksu_module/total)  
 ![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/AzyrRuthless/susfs_ksu_module&title=Views)
 
-This project primarily builds upon the work of Simon, the original creator of SUSFS4KSU. Additionally, it incorporates features from the modules created by Sidex and backslashxx, along with original enhancements by myself. The foundation and many base scripts are directly inspired by Simon’s [SUSFS4KSU project](https://gitlab.com/simonpunk/susfs4ksu).
+This project primarily builds upon the work of Simon, the original creator of SUSFS4KSU. Additionally, it incorporates features from the modules created by Sidex and backslashxx, along with original enhancements by myself.
 
 ## Introduction
 
@@ -14,14 +14,24 @@ This module installs userspace helper tools called **ksu_susfs** and **sus_su** 
 - Run `ksu_susfs` in root shell for detailed usages.
 - See `$KernelSU_repo/kernel/Kconfig` for supported features after applying the susfs patches.
 
-## How to Enable Hiding Additional Traces
+## How to Disable Hiding Additional Traces
 
-To enable hiding traces of Lineage, crDroid, GApps, etc., follow these steps:
+To disable hiding traces of Lineage, crDroid, GApps, etc., follow these steps:
 
-1. Open the `post-fs-data.sh` script located in the module's directory.
-2. Locate the section with the lines that hide LineageOS traces. The lines are commented out by default.
-3. Uncomment the relevant lines by removing the `#` at the beginning of each line.
-4. Save the changes to the `post-fs-data.sh` script.
+1. Open the `boot-completed.sh` script located in the module's directory.
+2. Locate the section with the lines that hide LineageOS & GApps traces. The lines are uncommented by default.
+3. Comment out the relevant lines by adding a `#` at the beginning of each line.
+4. Save the changes to the `boot-completed.sh` script.
+5. Reboot your device for the changes to take effect.
+
+## How to Disable Clean Vendor Sepolicy
+
+To disable clean vendor sepolicy, which is enabled by default in the `service.sh` script, follow these steps:
+
+1. Open the `service.sh` script located in the module's directory.
+2. Locate the lines that enable clean vendor sepolicy. These lines are enabled by default.
+3. Comment out the relevant lines by adding a `#` at the beginning of each line.
+4. Save the changes to the `service.sh` script.
 5. Reboot your device for the changes to take effect.
 
 ## Notes
@@ -49,7 +59,7 @@ Always back up your data before proceeding.
 
 **Q: Why didn't you fork the original repository from Simon, Sidex, or Backslashxx?**
 
-**A:** Simon, the original creator of SUSFS, hosts his repository on GitLab, while I prefer to use GitHub. Additionally, backslashxx has not created a repository on GitHub. Creating a new repository on GitHub allowed me to combine features from Sidex's and backslashxx's modules more efficiently. This approach provides more flexibility in organizing and enhancing the project, while still crediting all original authors for their foundational work.
+**A:** Simon, the original creator of SUSFS, hosts his repository on GitLab, while I prefer to use GitHub. Additionally, Backslashxx has now created a repository on GitHub. Creating a new repository on GitHub allowed me to combine features from Sidex's and Backslashxx's modules more efficiently. I also find it more comfortable to create a new, independent repository rather than working with forks. This approach provides more flexibility in organizing and enhancing the project, while still crediting all original authors for their foundational work.
 
 ## Credits
 
