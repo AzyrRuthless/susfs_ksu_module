@@ -15,11 +15,6 @@ fi
 
 sed -i "s/^description=.*/$description/g" $MODDIR/module.prop
 
-# Custom ROM - Add paths to SUSFS
-for PATH in /system/addon.d /vendor/bin/install-recovery.sh /system/bin/install-recovery.sh; do
-    "${SUSFS_BIN}" add_sus_path "$PATH"
-done
-
 # Hide Lineage and related custom ROM traces
 for PATH in $(find /system /vendor /system_ext /product -iname '*lineage*' -o -name '*crdroid*'); do
     "${SUSFS_BIN}" add_sus_path "$PATH"

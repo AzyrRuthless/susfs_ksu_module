@@ -92,24 +92,46 @@ for device in $(ls -Ld /proc/fs/jbd2/loop*8 2>/dev/null | sed 's|/proc/fs/jbd2/|
     "${SUSFS_BIN}" add_sus_path "/proc/fs/ext4/${device}"
 done
 
-# Clean vendor sepolicy
+# --- Clean vendor sepolicy ---
 # Evades reveny's native detector and native test (10)
 if grep -q lineage /vendor/etc/selinux/vendor_sepolicy.cil; then
     # Create a copy without "lineage" references
     grep -v "lineage" /vendor/etc/selinux/vendor_sepolicy.cil > /debug_ramdisk/vendor_sepolicy.cil
-    
-    # Add to susfs kernel statistics
+
+    # Add to susfs kernel statistics for the original file
     ${SUSFS_BIN} add_sus_kstat /vendor/etc/selinux/vendor_sepolicy.cil
-    
+
     # Clone permissions to the new copy
     susfs_clone_perm /debug_ramdisk/vendor_sepolicy.cil /vendor/etc/selinux/vendor_sepolicy.cil
-    
+
     # Use bind mount to replace the original file
     mount --bind /debug_ramdisk/vendor_sepolicy.cil /vendor/etc/selinux/vendor_sepolicy.cil
-    
-    # Update susfs kernel statistics
+
+    # Update susfs kernel statistics for the modified file
     ${SUSFS_BIN} update_sus_kstat /vendor/etc/selinux/vendor_sepolicy.cil
-    
+
     # Add the file to susfs mount list
     ${SUSFS_BIN} add_sus_mount /vendor/etc/selinux/vendor_sepolicy.cil
+fi
+
+# --- Clean device compatibility matrix ---
+# Potentially evades reveny's checks related to VINTF
+if grep -q lineage /system/etc/vintf/compatibility_matrix.device.xml; then
+    # Create a copy without "lineage" references
+    grep -v "lineage" /system/etc/vintf/compatibility_matrix.device.xml > /debug_ramdisk/compatibility_matrix.device.xml
+
+    # Add to susfs kernel statistics for the original file
+    ${SUSFS_BIN} add_sus_kstat /system/etc/vintf/compatibility_matrix.device.xml
+
+    # Clone permissions to the new copy
+    susfs_clone_perm /debug_ramdisk/compatibility_matrix.device.xml /system/etc/vintf/compatibility_matrix.device.xml
+
+    # Use bind mount to replace the original file
+    mount --bind /debug_ramdisk/compatibility_matrix.device.xml /system/etc/vintf/compatibility_matrix.device.xml
+
+    # Update susfs kernel statistics for the modified file
+    ${SUSFS_BIN} update_sus_kstat /system/etc/vintf/compatibility_matrix.device.xml
+
+    # Add the file to susfs mount list
+    ${SUSFS_BIN} add_sus_mount /system/etc/vintf/compatibility_matrix.device.xml
 fi
