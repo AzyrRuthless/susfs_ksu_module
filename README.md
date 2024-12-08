@@ -24,12 +24,12 @@ To disable hiding traces of Lineage, crDroid, GApps, etc., follow these steps:
 4. Save the changes to the `boot-completed.sh` script.
 5. Reboot your device for the changes to take effect.
 
-## How to Disable Clean Vendor Sepolicy
+## How to Disable Clean Vendor Sepolicy/Device compatibility matrix
 
-To disable clean vendor sepolicy, which is enabled by default in the `service.sh` script, follow these steps:
+To disable clean vendor sepolicy/device compatibility matrix, which is enabled by default in the `service.sh` script, follow these steps:
 
 1. Open the `service.sh` script located in the module's directory.
-2. Locate the lines that enable clean vendor sepolicy. These lines are enabled by default.
+2. Locate the lines that enable clean vendor sepolicy/device compatibility matrix. These lines are enabled by default.
 3. Comment out the relevant lines by adding a `#` at the beginning of each line.
 4. Save the changes to the `service.sh` script.
 5. Reboot your device for the changes to take effect.
