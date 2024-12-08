@@ -12,3 +12,8 @@
 **Credits**:  
 - Sidex: [https://github.com/sidex15/ksu_module_susfs](https://github.com/sidex15/ksu_module_susfs)  
 - Backslashxx: [https://github.com/backslashxx/ksu_module_susfs](https://github.com/backslashxx/ksu_module_susfs)
+
+### 2024-12-08
+- Moved some things around
+- Did a little refactoring
+- Added a fix/workaround for 'New custom ROM checks' in the latest native detector (6.5.7)
