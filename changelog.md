@@ -17,3 +17,6 @@
 - Moved some things around
 - Did a little refactoring
 - Added a fix/workaround for 'New custom ROM checks' in the latest native detector (6.5.7)
+
+### 2024-12-11
+- Refactored a bit (Again)
