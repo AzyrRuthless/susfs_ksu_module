@@ -94,44 +94,28 @@ done
 
 # --- Clean vendor sepolicy ---
 # Evades reveny's native detector and native test (10)
-if grep -q lineage /vendor/etc/selinux/vendor_sepolicy.cil; then
-    # Create a copy without "lineage" references
-    grep -v "lineage" /vendor/etc/selinux/vendor_sepolicy.cil > /debug_ramdisk/vendor_sepolicy.cil
+vendor_policy="/vendor/etc/selinux/vendor_sepolicy.cil"
+debug_policy="/debug_ramdisk/vendor_sepolicy.cil"
 
-    # Add to susfs kernel statistics for the original file
-    ${SUSFS_BIN} add_sus_kstat /vendor/etc/selinux/vendor_sepolicy.cil
-
-    # Clone permissions to the new copy
-    susfs_clone_perm /debug_ramdisk/vendor_sepolicy.cil /vendor/etc/selinux/vendor_sepolicy.cil
-
-    # Use bind mount to replace the original file
-    mount --bind /debug_ramdisk/vendor_sepolicy.cil /vendor/etc/selinux/vendor_sepolicy.cil
-
-    # Update susfs kernel statistics for the modified file
-    ${SUSFS_BIN} update_sus_kstat /vendor/etc/selinux/vendor_sepolicy.cil
-
-    # Add the file to susfs mount list
-    ${SUSFS_BIN} add_sus_mount /vendor/etc/selinux/vendor_sepolicy.cil
+if grep -q lineage "$vendor_policy"; then
+    grep -v "lineage" "$vendor_policy" > "$debug_policy"
+    ${SUSFS_BIN} add_sus_kstat "$vendor_policy"
+    susfs_clone_perm "$debug_policy" "$vendor_policy"
+    mount --bind "$debug_policy" "$vendor_policy"
+    ${SUSFS_BIN} update_sus_kstat "$vendor_policy"
+    ${SUSFS_BIN} add_sus_mount "$vendor_policy"
 fi
 
 # --- Clean device compatibility matrix ---
 # Potentially evades reveny's checks related to VINTF
-if grep -q lineage /system/etc/vintf/compatibility_matrix.device.xml; then
-    # Create a copy without "lineage" references
-    grep -v "lineage" /system/etc/vintf/compatibility_matrix.device.xml > /debug_ramdisk/compatibility_matrix.device.xml
+device_matrix="/system/etc/vintf/compatibility_matrix.device.xml"
+debug_matrix="/debug_ramdisk/compatibility_matrix.device.xml"
 
-    # Add to susfs kernel statistics for the original file
-    ${SUSFS_BIN} add_sus_kstat /system/etc/vintf/compatibility_matrix.device.xml
-
-    # Clone permissions to the new copy
-    susfs_clone_perm /debug_ramdisk/compatibility_matrix.device.xml /system/etc/vintf/compatibility_matrix.device.xml
-
-    # Use bind mount to replace the original file
-    mount --bind /debug_ramdisk/compatibility_matrix.device.xml /system/etc/vintf/compatibility_matrix.device.xml
-
-    # Update susfs kernel statistics for the modified file
-    ${SUSFS_BIN} update_sus_kstat /system/etc/vintf/compatibility_matrix.device.xml
-
-    # Add the file to susfs mount list
-    ${SUSFS_BIN} add_sus_mount /system/etc/vintf/compatibility_matrix.device.xml
+if grep -q lineage "$device_matrix"; then
+    grep -v "lineage" "$device_matrix" > "$debug_matrix"
+    ${SUSFS_BIN} add_sus_kstat "$device_matrix"
+    susfs_clone_perm "$debug_matrix" "$device_matrix"
+    mount --bind "$debug_matrix" "$device_matrix"
+    ${SUSFS_BIN} update_sus_kstat "$device_matrix"
+    ${SUSFS_BIN} add_sus_mount "$device_matrix"
 fi
