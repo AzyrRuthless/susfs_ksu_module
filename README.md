@@ -1,4 +1,5 @@
 # SUSFS Module for KSU
+# "Archived, please use the SUSFS module by sidex15."
 
 ![GitHub all releases](https://img.shields.io/github/downloads/AzyrRuthless/susfs_ksu_module/total)  
 ![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/AzyrRuthless/susfs_ksu_module&title=Views)
